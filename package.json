@@ -12,6 +12,9 @@
     "lib",
     "bin"
   ],
+  "bin": {
+    "fs-ops": "bin/fs-ops.js"
+  },
   "scripts": {
     "publish:beta": "npm version prerelease --preid=beta && npm publish",
     "publish:patch": "npm version patch && npm publish",
