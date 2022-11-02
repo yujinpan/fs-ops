@@ -2,6 +2,11 @@
   "name": "fs-ops",
   "version": "1.0.0",
   "description": "Operators for node files.",
+  "keywords": [
+    "fs",
+    "zip",
+    "archiver"
+  ],
   "main": "lib/index.js",
   "files": [
     "lib",
