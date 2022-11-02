@@ -1,6 +1,11 @@
-# Fs-Ops
+# fs-ops
 
-- `npm test` test your code
-- `npm run build` build your code
-- `npm publish:beta` publish beta version
-- `npm publish:patch` publish patch version
+Operators for node files.
+
+## Operators
+
+- `zip(destPath: string, outPath?: string): Promise<string>` make zip file
+
+## Commands
+
+- `fs-ops zip <destPath> [outPath]`
