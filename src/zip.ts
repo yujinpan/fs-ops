@@ -10,7 +10,7 @@ function zip(destPath: string, outPath?: string) {
   fs.rmSync(outPath, { force: true });
 
   // create a file to stream archive data to.
-  const outputFile = path.resolve(__dirname, 'dist.zip');
+  const outputFile = path.resolve(__dirname, `${Date.now()}.zip`);
   const outputStream = fs.createWriteStream(outputFile);
   const archive = archiver('zip', {
     zlib: { level: 9 }, // Sets the compression level.

@@ -8,6 +8,7 @@ describe('zip', () => {
     fs.rmdirSync('test', { recursive: true });
     fs.mkdirSync('test');
     fs.writeFileSync('test/a.txt', '123');
+    fs.writeFileSync('test/b.txt', '123');
   });
   afterEach(() => {
     fs.rmdirSync('test', { recursive: true });
@@ -35,5 +36,12 @@ describe('zip', () => {
     const outFile = await zip('test/a.*');
     expect(outFile).toBe('test/a.*.zip');
     expect(fs.readFileSync(outFile)).toBeInstanceOf(Buffer);
+  });
+
+  it('should zip with concurrent', async function () {
+    expect(await Promise.all([zip('test/a.txt'), zip('test/b.txt')])).toEqual([
+      'test/a.txt.zip',
+      'test/b.txt.zip',
+    ]);
   });
 });
