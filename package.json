@@ -41,6 +41,7 @@
     "url": "git+ssh://git@github.com/yujinpan/fs-ops.git"
   },
   "dependencies": {
+    "archiver": "^5.3.1",
     "yargs": "^17.5.1"
   }
 }
