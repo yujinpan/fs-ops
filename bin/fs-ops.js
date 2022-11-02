@@ -1,17 +1,14 @@
 #!/usr/bin/env node
 
-const argv = require('yargs')(process.argv.slice(2))
-  .scriptName('fs-ops')
-  .usage('$0 [args]')
-  .options({
-    m: {
-      alias: 'msg',
-      default: 'Hello, World!',
-      describe: 'message',
-      string: true,
+require('yargs')
+  .command(
+    'zip <destPath> [outPath]',
+    'make zip file',
+    (yargs) => yargs,
+    (argv) => {
+      require('../lib/index').zip(argv.destPath, argv.outPath);
     },
-  })
+  )
   .alias('v', 'version')
-  .alias('h', 'help').argv;
-
-require('../lib/index').helloWorld(argv);
+  .alias('h', 'help')
+  .help().argv;
