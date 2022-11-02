@@ -6,7 +6,7 @@ require('yargs')
     'make zip file',
     (yargs) => yargs,
     (argv) => {
-      require('../lib/index').zip(argv.destPath, argv.outPath);
+      return require('../lib/index').zip(argv.destPath, argv.outPath);
     },
   )
   .alias('v', 'version')
