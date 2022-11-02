@@ -4,7 +4,7 @@ import path from 'path';
 
 export default zip;
 
-function zip(destPath: string, outPath?: string) {
+function zip(destPath: string, outPath?: string): Promise<any> {
   outPath = normalizeOutPath(destPath, outPath);
 
   fs.rmSync(outPath, { force: true });
