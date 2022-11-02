@@ -1,6 +1,6 @@
 {
   "name": "fs-ops",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Operators for node files.",
   "keywords": [
     "fs",
