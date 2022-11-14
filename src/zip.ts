@@ -4,13 +4,15 @@ import path from 'path';
 
 export default zip;
 
+let zipNum = 0;
+
 function zip(destPath: string, outPath?: string): Promise<any> {
   outPath = normalizeOutPath(destPath, outPath);
 
   fs.rmSync(outPath, { force: true });
 
   // create a file to stream archive data to.
-  const outputFile = path.resolve(__dirname, `${Date.now()}.zip`);
+  const outputFile = path.resolve(__dirname, `zip${zipNum++}.zip`);
   const outputStream = fs.createWriteStream(outputFile);
   const archive = archiver('zip', {
     zlib: { level: 9 }, // Sets the compression level.
