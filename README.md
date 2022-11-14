@@ -2,10 +2,58 @@
 
 Operators for node files.
 
-## Operators
+## zip
 
-- `zip(destPath: string, outPath?: string): Promise<string>` make zip file
+### API
 
-## Commands
+- `zip(destPath, outPath?): Promise<string>`
 
-- `fs-ops zip <destPath> [outPath]`
+make zip file, return the zip file path.
+
+| param      | type     | required | desc                                                                                                       |
+| ---------- | -------- | -------- | ---------------------------------------------------------------------------------------------------------- |
+| `destPath` | `string` | `true`   | file/files/directory, supported [`glob`](https://github.com/isaacs/node-glob#glob-primer), like: `**/*.js` |
+| `outPath`  | `string` | `false`  | output file path or directory path, default to the `destPath`                                              |
+
+### Commands
+
+```shell
+fs-ops zip <destPath> [outPath]
+
+make zip file
+
+Options:
+  -v, --version  Show version number                                   [boolean]
+  -h, --help     Show help                                             [boolean]
+```
+
+## ext
+
+### API
+
+- `extTo(glob, ext?, options?): void`
+
+change files extensions.
+
+| param                         | type                   | required | desc                                                                                                      |
+| ----------------------------- | ---------------------- | -------- | --------------------------------------------------------------------------------------------------------- |
+| `glob`                        | `string/string[]`      | `true`   | pattern of matching files, use [`glob`](https://github.com/isaacs/node-glob#glob-primer), like: `**/*.js` |
+| `ext`                         | `js/jsx/ts/tsx/string` | `false`  | target extension, default: `ts`                                                                           |
+| `options.injectNoCheck`       | `boolean`              | `false`  | inject // @ts-nocheck to file header                                                                      |
+| `options.injectESLintDisable` | `boolean`              | `false`  | inject /_ eslint-disable _/ to file header                                                                |
+| `options.encoding`            | `boolean`              | `false`  | file encoding type, like: `utf-8`                                                                         |
+
+### Commands
+
+```shell
+fs-ops ext-to <glob> [ext]
+
+change files extensions
+
+Options:
+  -n, --injectNoCheck        inject // @ts-nocheck to file header      [boolean]
+  -d, --injectESLintDisable  inject /* eslint-disable */ to file header[boolean]
+  -e, --encoding             file encoding type, like: utf-8            [string]
+  -v, --version              Show version number                       [boolean]
+  -h, --help                 Show help                                 [boolean]
+```
