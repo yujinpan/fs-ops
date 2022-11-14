@@ -3,7 +3,7 @@ import { sync as globSync } from 'glob';
 
 import { toArray } from './utils';
 
-export type ToTSOptions = {
+export type ExtToOptions = {
   injectNoCheck?: boolean;
   injectESLintDisable?: boolean;
   encoding?: BufferEncoding;
@@ -12,7 +12,7 @@ export type ToTSOptions = {
 export function extTo(
   glob: string | string[],
   ext: 'js' | 'jsx' | 'ts' | 'tsx' | string = 'ts',
-  options: ToTSOptions = {},
+  options: ExtToOptions = {},
 ) {
   const files = toArray(glob).flatMap((item) => globSync(item));
   files.forEach((item) => {
