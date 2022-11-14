@@ -2,6 +2,9 @@
   "name": "fs-ops",
   "version": "1.0.2",
   "description": "Operators for node files.",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org"
+  },
   "keywords": [
     "fs",
     "zip",
