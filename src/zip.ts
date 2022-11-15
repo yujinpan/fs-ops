@@ -2,11 +2,13 @@ import archiver from 'archiver';
 import fs from 'fs';
 import path from 'path';
 
+import { toArray } from './utils';
+
 export default zip;
 
 let zipNum = 0;
 
-function zip(destPath: string, outPath?: string): Promise<any> {
+function zip(destPath: string | string[], outPath?: string): Promise<any> {
   outPath = normalizeOutPath(destPath, outPath);
 
   fs.rmSync(outPath, { force: true });
@@ -20,11 +22,13 @@ function zip(destPath: string, outPath?: string): Promise<any> {
 
   archive.pipe(outputStream);
 
-  if (path.extname(destPath)) {
-    archive.glob(destPath);
-  } else {
-    archive.directory(destPath, false);
-  }
+  toArray(destPath).map((item) => {
+    if (path.extname(item)) {
+      archive.glob(destPath);
+    } else {
+      archive.directory(destPath, false);
+    }
+  });
 
   return archive.finalize().then(() => {
     return new Promise((resolve, reject) => {
@@ -58,13 +62,18 @@ function getSize(byt: number) {
  * '' => '[destName].zip'
  * 'xx.zip' => 'xx.zip'
  * 'xx/' => 'xx/[destName].zip'
+ * ['...', '...'] => dist.zip
  */
-function normalizeOutPath(destPath: string, outPath?: string) {
+function normalizeOutPath(destPath: string | string[], outPath?: string) {
   return outPath
     ? outPath.endsWith('.zip')
       ? outPath
       : outPath.endsWith('/')
-      ? `${outPath}${path.basename(destPath)}.zip`
+      ? `${outPath}${
+          Array.isArray(destPath) ? 'dist' : path.basename(destPath)
+        }.zip`
       : `${outPath}.zip`
+    : Array.isArray(destPath)
+    ? 'dist.zip'
     : destPath.replace(/\/+$/, '') + '.zip';
 }
