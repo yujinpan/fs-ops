@@ -1,10 +1,14 @@
 #!/usr/bin/env node
-
 require('yargs')
   .command(
-    'zip <destPath> [outPath]',
+    'zip <destPath...>',
     'make zip file',
-    (yargs) => yargs,
+    (yargs) =>
+      yargs.options('o', {
+        alias: 'outPath',
+        type: 'string',
+        desc: 'zip file output path',
+      }),
     (argv) => {
       return require('../lib/index').zip(argv.destPath, argv.outPath);
     },
