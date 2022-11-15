@@ -1,6 +1,6 @@
 {
   "name": "fs-ops",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Operators for node files.",
   "publishConfig": {
     "registry": "https://registry.npmjs.org"
