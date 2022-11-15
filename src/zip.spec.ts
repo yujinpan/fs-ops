@@ -1,5 +1,5 @@
 import { Buffer } from 'buffer';
-import fs from 'fs';
+import fs, { rmSync } from 'fs';
 
 import zip from './zip';
 
@@ -43,5 +43,10 @@ describe('zip', () => {
       'test/a.txt.zip',
       'test/b.txt.zip',
     ]);
+  });
+
+  it('should zip multi patterns', async function () {
+    expect(await zip(['test/a.txt', 'test/b.txt'])).toBe('dist.zip');
+    rmSync('dist.zip');
   });
 });

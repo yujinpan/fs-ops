@@ -24,9 +24,9 @@ function zip(destPath: string | string[], outPath?: string): Promise<any> {
 
   toArray(destPath).map((item) => {
     if (path.extname(item)) {
-      archive.glob(destPath);
+      archive.glob(item);
     } else {
-      archive.directory(destPath, false);
+      archive.directory(item, false);
     }
   });
 
