@@ -10,10 +10,15 @@ require('yargs')
     },
   )
   .command(
-    'ext-to <glob> [ext]',
+    'ext-to <glob...>',
     'change files extensions',
     (yargs) =>
       yargs
+        .options('f', {
+          alias: 'ext',
+          type: 'string',
+          desc: 'replace to extension, default: ts',
+        })
         .options('n', {
           alias: 'injectNoCheck',
           type: 'boolean',
