@@ -2,7 +2,7 @@ import archiver from 'archiver';
 import fs from 'fs';
 import path from 'path';
 
-import { toArray, tryMkdirSync } from './utils';
+import { print, toArray, tryMkdirSync } from './utils';
 
 export default zip;
 
@@ -26,9 +26,10 @@ function zip(destPath: string | string[], outPath?: string): Promise<any> {
       fs.copyFileSync(outputFile, outPath);
       fs.rmSync(outputFile);
 
-      // eslint-disable-next-line no-console
-      console.log(
-        `Zip Complete: ${outPath}\nTotal size: ${getSize(archive.pointer())}`,
+      print(
+        `Zip Complete: {cyan|${outPath}}\nTotal size: {cyan|${getSize(
+          archive.pointer(),
+        )}}`,
       );
 
       resolve(outPath);
