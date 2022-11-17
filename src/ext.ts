@@ -1,7 +1,8 @@
 import { copyFileSync, readFileSync, rmSync, writeFileSync } from 'fs';
 import { sync as globSync } from 'glob';
 
-import { toArray } from './utils';
+import { Progress } from './progress';
+import { print, toArray } from './utils';
 
 export type ExtToOptions = {
   injectNoCheck?: boolean;
@@ -15,7 +16,13 @@ export function extTo(
   options: ExtToOptions = {},
 ) {
   const files = toArray(glob).flatMap((item) => globSync(item));
-  files.forEach((item) => {
+  const progress = new Progress({
+    title: 'Replace...',
+    total: files.length,
+    bar: true,
+  });
+
+  files.forEach((item, index) => {
     const dest = item.replace(/(\.\w+)?$/, `.${ext}`);
     copyFileSync(item, dest);
 
@@ -31,5 +38,10 @@ export function extTo(
     }
 
     if (item !== dest) rmSync(item);
+
+    progress.update(index + 1);
   });
+
+  progress.end();
+  print(`Replace extensions Complete!`);
 }
