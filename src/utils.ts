@@ -17,3 +17,29 @@ export function tryMkdirSync(destPath: string) {
     }
   }
 }
+
+/**
+ * 'Hello, {red|World}!' => Hello, World! (World is red)
+ */
+export function getStyleText(msg: string) {
+  const match = Array.from(msg.match(/\{\w+\|[^}]*}/g) || []);
+  if (match.length) {
+    const styles = {
+      red: 31,
+      green: 32,
+      blue: 33,
+      magenta: 35,
+      cyan: 36,
+    };
+    match.forEach((item) => {
+      const [style, text] = item.slice(1, -1).split('|');
+      msg = msg.replace(item, `\x1b[${styles[style] || 0}m${text}\x1b[0m`);
+    });
+  }
+  return msg;
+}
+
+export function print(msg: string) {
+  // eslint-disable-next-line no-console
+  console.log(getStyleText(msg));
+}
