@@ -2,6 +2,7 @@ import archiver from 'archiver';
 import fs from 'fs';
 import path from 'path';
 
+import { Progress } from './progress';
 import { print, toArray, tryMkdirSync } from './utils';
 
 export default zip;
@@ -37,6 +38,16 @@ function zip(destPath: string | string[], outPath?: string): Promise<any> {
     outputStream.once('error', reject);
 
     archive.on('error', reject);
+
+    const progress = new Progress({
+      title: 'Entries...',
+    });
+    archive.on('progress', (e) => {
+      progress.update(e.entries.processed, e.entries.total);
+    });
+    archive.on('end', () => {
+      progress.end();
+    });
 
     archive.pipe(outputStream);
 
