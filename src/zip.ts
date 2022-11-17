@@ -2,7 +2,7 @@ import archiver from 'archiver';
 import fs from 'fs';
 import path from 'path';
 
-import { toArray } from './utils';
+import { toArray, tryMkdirSync } from './utils';
 
 export default zip;
 
@@ -33,6 +33,7 @@ function zip(destPath: string | string[], outPath?: string): Promise<any> {
   return archive.finalize().then(() => {
     return new Promise((resolve, reject) => {
       outputStream.once('close', () => {
+        tryMkdirSync(path.dirname(outPath));
         fs.copyFileSync(outputFile, outPath);
         fs.rmSync(outputFile);
 
