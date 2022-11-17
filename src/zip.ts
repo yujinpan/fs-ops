@@ -20,32 +20,34 @@ function zip(destPath: string | string[], outPath?: string): Promise<any> {
     zlib: { level: 9 }, // Sets the compression level.
   });
 
-  archive.pipe(outputStream);
+  return new Promise((resolve, reject) => {
+    outputStream.once('close', () => {
+      tryMkdirSync(path.dirname(outPath));
+      fs.copyFileSync(outputFile, outPath);
+      fs.rmSync(outputFile);
 
-  toArray(destPath).map((item) => {
-    if (path.extname(item)) {
-      archive.glob(item);
-    } else {
-      archive.directory(item, false);
-    }
-  });
+      // eslint-disable-next-line no-console
+      console.log(
+        `Zip Complete: ${outPath}\nTotal size: ${getSize(archive.pointer())}`,
+      );
 
-  return archive.finalize().then(() => {
-    return new Promise((resolve, reject) => {
-      outputStream.once('close', () => {
-        tryMkdirSync(path.dirname(outPath));
-        fs.copyFileSync(outputFile, outPath);
-        fs.rmSync(outputFile);
-
-        // eslint-disable-next-line no-console
-        console.log(
-          `Zip Complete: ${outPath}\nTotal size: ${getSize(archive.pointer())}`,
-        );
-
-        resolve(outPath);
-      });
-      outputStream.once('error', reject);
+      resolve(outPath);
     });
+    outputStream.once('error', reject);
+
+    archive.on('error', reject);
+
+    archive.pipe(outputStream);
+
+    toArray(destPath).map((item) => {
+      if (path.extname(item)) {
+        archive.glob(item);
+      } else {
+        archive.directory(item, false);
+      }
+    });
+
+    archive.finalize();
   });
 }
 
