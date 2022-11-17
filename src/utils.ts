@@ -27,9 +27,12 @@ export function getStyleText(msg: string) {
     const styles = {
       red: 31,
       green: 32,
+      greenBg: 42,
       blue: 33,
       magenta: 35,
       cyan: 36,
+      white: 37,
+      whiteBg: 47,
     };
     match.forEach((item) => {
       const [style, text] = item.slice(1, -1).split('|');
